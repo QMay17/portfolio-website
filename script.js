@@ -8,6 +8,7 @@ document.addEventListener('DOMContentLoaded', function() {
     initSmoothScrolling();
     initScrollIndicator();
     initProfileImageEffect();
+    initResponsiveHandlers();
 });
 
 // Navigation functionality
@@ -105,7 +106,8 @@ function initScrollAnimations() {
         { selector: '.timeline-item', animation: 'slide-in-left', delay: true },
         { selector: '.contact-content > *', animation: 'fade-in', delay: true },
         { selector: '.skill-category', animation: 'slide-in-right', delay: true },
-        { selector: '.hero-content > *', animation: 'fade-in', delay: true }
+        { selector: '.hero-content > *', animation: 'fade-in', delay: true },
+        { selector: '.social-link', animation: 'fade-in', delay: true }
     ];
 
     animationElements.forEach(({ selector, animation, delay }) => {
@@ -418,21 +420,8 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 
-// Social links interaction
-document.addEventListener('DOMContentLoaded', function() {
-    const socialLinks = document.querySelectorAll('.social-link');
-    
-    socialLinks.forEach(link => {
-        link.addEventListener('mouseenter', () => {
-            // Add a subtle pulse animation
-            link.style.animation = 'pulse 1s infinite';
-        });
-        
-        link.addEventListener('mouseleave', () => {
-            link.style.animation = '';
-        });
-    });
-});
+// Social links interaction - removed conflicting hover animations
+// The CSS hover effects are sufficient
 
 // Add pulse animation to CSS dynamically
 const style = document.createElement('style');
@@ -593,13 +582,14 @@ additionalStyles.textContent = `
         animation: slideInUp 0.8s ease 0.7s both;
     }
     
-    .social-links .social-link {
-        animation: slideInUp 0.8s ease calc(0.9s + var(--delay, 0s)) both;
+    .hero-buttons .btn:nth-child(3) {
+        animation: slideInUp 0.8s ease 0.9s both;
     }
     
-    .social-links .social-link:nth-child(1) { --delay: 0s; }
-    .social-links .social-link:nth-child(2) { --delay: 0.1s; }
-    .social-links .social-link:nth-child(3) { --delay: 0.2s; }
+    .hero-buttons .btn:nth-child(4) {
+        animation: slideInUp 0.8s ease 1.1s both;
+    }
+    
 `;
 document.head.appendChild(additionalStyles);
 
@@ -708,6 +698,74 @@ function preloadImages() {
 
 // Initialize preloading
 preloadImages();
+
+// Responsive handlers
+function initResponsiveHandlers() {
+    // Handle window resize for responsive adjustments
+    let resizeTimeout;
+    window.addEventListener('resize', () => {
+        clearTimeout(resizeTimeout);
+        resizeTimeout = setTimeout(() => {
+            handleResponsiveAdjustments();
+        }, 250);
+    });
+    
+    // Initial call
+    handleResponsiveAdjustments();
+}
+
+function handleResponsiveAdjustments() {
+    const windowWidth = window.innerWidth;
+    const isMobile = windowWidth <= 768;
+    const isTablet = windowWidth > 768 && windowWidth <= 1024;
+    const isDesktop = windowWidth > 1024;
+    
+    // Adjust typing effect speed based on screen size
+    const typingText = document.querySelector('.typing-text');
+    if (typingText && isMobile) {
+        // Faster typing on mobile for better UX
+        typingSpeed = 80;
+    }
+    
+    // Adjust profile image hover effects for touch devices
+    const profileImage = document.querySelector('.profile-image');
+    if (profileImage && isMobile) {
+        // Remove hover effects on mobile to prevent sticky hover states
+        profileImage.style.transition = 'transform 0.3s ease';
+    }
+    
+    // Ensure proper spacing for social links on different screen sizes
+    const socialLinks = document.querySelector('.social-links');
+    if (socialLinks) {
+        if (isMobile) {
+            socialLinks.style.marginTop = '-var(--spacing-base)';
+        } else {
+            socialLinks.style.marginTop = '-var(--spacing-lg)';
+        }
+    }
+    
+    // Adjust button layout for very small screens
+    const heroButtons = document.querySelector('.hero-buttons');
+    const heroButtonsSecondRow = document.querySelector('.hero-buttons-second-row');
+    
+    if (windowWidth <= 480) {
+        if (heroButtons) {
+            heroButtons.style.flexDirection = 'column';
+            heroButtons.style.alignItems = 'stretch';
+        }
+        if (heroButtonsSecondRow) {
+            heroButtonsSecondRow.style.alignItems = 'stretch';
+        }
+    } else {
+        if (heroButtons) {
+            heroButtons.style.flexDirection = 'row';
+            heroButtons.style.alignItems = 'center';
+        }
+        if (heroButtonsSecondRow) {
+            heroButtonsSecondRow.style.alignItems = 'flex-start';
+        }
+    }
+}
 
 // Console message for developers
 console.log(`

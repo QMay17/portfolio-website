@@ -66,6 +66,8 @@
 
 html {
     scroll-behavior: smooth;
+    /* Prevent horizontal scrolling on mobile */
+    overflow-x: hidden;
 }
 
 body {
@@ -183,7 +185,7 @@ body {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: var(--spacing-3xl);
-    align-items: center;
+    align-items: start;
 }
 
 .hero-content {
@@ -195,6 +197,7 @@ body {
     align-items: center;
     gap: var(--spacing-sm);
     margin-bottom: var(--spacing-base);
+    margin-top: var(--spacing-2xl); /* Add more space before "Hello, I'm" */
 }
 
 .wave {
@@ -260,7 +263,13 @@ body {
 .hero-buttons {
     display: flex;
     gap: var(--spacing-lg);
-    margin-bottom: var(--spacing-2xl);
+    margin-bottom: var(--spacing-lg);
+}
+
+.hero-buttons-second-row {
+    display: flex;
+    justify-content: flex-start;
+    margin-bottom: var(--spacing-lg);
 }
 
 .btn {
@@ -317,9 +326,24 @@ body {
     box-shadow: var(--shadow-medium);
 }
 
+.btn-letter {
+    background: linear-gradient(135deg, #f8f9fa, #ffffff);
+    color: var(--text-dark);
+    border: 2px solid var(--dark-yellow);
+    box-shadow: var(--shadow-light);
+}
+
+.btn-letter:hover {
+    background: linear-gradient(135deg, var(--dark-yellow), var(--accent-yellow));
+    color: var(--text-dark);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-medium);
+}
+
 .social-links {
     display: flex;
     gap: var(--spacing-base);
+    margin-top: -var(--spacing-lg); /* Move social icons up */
 }
 
 .social-link {
@@ -348,6 +372,8 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
+    margin-top: 50px; /* Move image up a bit */
+    margin-left: -20px; /* Move image further left for better visibility */
 }
 
 .profile-image-container {
@@ -870,6 +896,81 @@ section {
 }
 
 /* Responsive Design */
+
+/* Large Desktop (1200px and up) */
+@media (min-width: 1200px) {
+    .container,
+    .nav-container,
+    .hero-container {
+        max-width: 1400px;
+    }
+    
+    .hero-title {
+        font-size: 4rem;
+    }
+    
+    .profile-image {
+        width: 320px;
+        height: 320px;
+    }
+    
+    .profile-ring {
+        width: 360px;
+        height: 360px;
+    }
+    
+    .profile-ring::before {
+        width: 380px;
+        height: 380px;
+    }
+}
+
+/* Tablet (768px to 1024px) */
+@media (max-width: 1024px) and (min-width: 769px) {
+    .hero-container {
+        gap: var(--spacing-2xl);
+    }
+    
+    .hero-title {
+        font-size: var(--font-size-4xl);
+    }
+    
+    .profile-image {
+        width: 260px;
+        height: 260px;
+    }
+    
+    .profile-ring {
+        width: 300px;
+        height: 300px;
+    }
+    
+    .profile-ring::before {
+        width: 320px;
+        height: 320px;
+    }
+    
+    .hero-buttons {
+        gap: var(--spacing-base);
+    }
+    
+    .btn {
+        padding: var(--spacing-sm) var(--spacing-lg);
+        font-size: var(--font-size-sm);
+    }
+    
+    .projects-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: var(--spacing-xl);
+    }
+    
+    .contact-methods {
+        grid-template-columns: repeat(3, 1fr);
+        gap: var(--spacing-base);
+    }
+}
+
+/* Mobile (up to 768px) */
 @media (max-width: 768px) {
     .nav-menu {
         position: fixed;
@@ -912,16 +1013,37 @@ section {
         gap: var(--spacing-2xl);
     }
     
+    .hero-visual {
+        margin-top: 0; /* Reset margin on mobile */
+        margin-left: 0; /* Reset horizontal positioning on mobile */
+    }
+    
     .hero-title {
         font-size: var(--font-size-4xl);
+    }
+
+    .greeting {
+        justify-content: center;
+    }
+
+    .hero-subtitle {
+        justify-content: center;
     }
     
     .hero-buttons {
         display: flex;
         gap: var(--spacing-lg);
-        margin-bottom: var(--spacing-2xl);
+        margin-bottom: var(--spacing-lg);
         flex-wrap: wrap; /* Allows wrapping on mobile */
-        justify-content: flex-start; /* Aligns buttons to left */
+        justify-content: center; /* Aligns buttons to left */
+    }
+    
+    .hero-buttons-second-row {
+        justify-content: center; /* Center the Get In Touch button on mobile */
+    }
+
+    .social-links {
+        justify-content: center;
     }
     
     .profile-image-container {
@@ -991,8 +1113,43 @@ section {
         grid-template-columns: 1fr;
         gap: var(--spacing-lg);
     }
+    
+    /* Mobile-specific optimizations */
+    .about-content {
+        grid-template-columns: 1fr;
+        gap: var(--spacing-xl);
+    }
+    
+    .skills-grid {
+        gap: var(--spacing-base);
+    }
+    
+    .skill-tags {
+        gap: var(--spacing-xs);
+    }
+    
+    .skill-tag {
+        font-size: var(--font-size-xs);
+        padding: var(--spacing-xs) var(--spacing-sm);
+    }
+    
+    .section-title {
+        font-size: var(--font-size-3xl);
+        margin-bottom: var(--spacing-2xl);
+    }
+    
+    .hero-description {
+        font-size: var(--font-size-base);
+        max-width: 100%;
+        margin-bottom: var(--spacing-lg);
+    }
+    
+    .greeting {
+        margin-top: var(--spacing-lg); /* Reduce top spacing on mobile */
+    }
 }
 
+/* Small Mobile (up to 480px) */
 @media (max-width: 480px) {
     .container,
     .nav-container,
@@ -1002,44 +1159,134 @@ section {
     
     .hero-title {
         font-size: var(--font-size-3xl);
+        line-height: 1.2;
+    }
+    
+    .hero-subtitle .typing-text {
+        font-size: var(--font-size-xl);
     }
     
     .hero-buttons {
         flex-direction: column;
-        align-items: center;
+        align-items: stretch;
+        gap: var(--spacing-base);
+    }
+    
+    .hero-buttons-second-row {
+        justify-content: stretch;
     }
     
     .btn {
         width: 100%;
         justify-content: center;
-        max-width: 250px;
+        padding: var(--spacing-base) var(--spacing-lg);
+        font-size: var(--font-size-sm);
     }
     
     .profile-image-container {
-        width: 220px;
-        height: 220px;
-    }
-    
-    .profile-image {
-        width: 180px;
-        height: 180px;
-    }
-    
-    .profile-ring {
         width: 200px;
         height: 200px;
     }
     
+    .profile-image {
+        width: 160px;
+        height: 160px;
+    }
+    
+    .profile-ring {
+        width: 180px;
+        height: 180px;
+    }
+    
     .profile-ring::before {
-        width: 220px;
-        height: 220px;
+        width: 200px;
+        height: 200px;
+    }
+    
+    .social-links {
+        gap: var(--spacing-sm);
+        margin-top: -var(--spacing-base); /* Adjust spacing on small mobile */
+    }
+    
+    .social-link {
+        width: 40px;
+        height: 40px;
+        font-size: var(--font-size-base);
+    }
+    
+    .project-card {
+        padding: var(--spacing-lg);
     }
     
     .project-stats {
         flex-direction: column;
         gap: var(--spacing-base);
+        text-align: center;
+    }
+    
+    .timeline-content {
+        padding: var(--spacing-base);
+        margin-left: var(--spacing-sm);
+    }
+    
+    .timeline-header h3 {
+        font-size: var(--font-size-base);
+    }
+    
+    .contact-content {
+        padding: var(--spacing-base);
+    }
+    
+    .greeting-text,
+    .wave {
+        font-size: var(--font-size-base);
+    }
+    
+    .nav-logo .logo-text {
+        font-size: var(--font-size-lg);
     }
 }
+
+/* Extra Small Mobile (up to 360px) */
+@media (max-width: 360px) {
+    .hero-title {
+        font-size: 2rem;
+    }
+    
+    .hero-subtitle .typing-text {
+        font-size: var(--font-size-lg);
+    }
+    
+    .profile-image-container {
+        width: 160px;
+        height: 160px;
+    }
+    
+    .profile-image {
+        width: 140px;
+        height: 140px;
+    }
+    
+    .profile-ring {
+        width: 150px;
+        height: 150px;
+    }
+    
+    .profile-ring::before {
+        width: 170px;
+        height: 170px;
+    }
+    
+    .btn {
+        padding: var(--spacing-sm) var(--spacing-base);
+        font-size: var(--font-size-xs);
+    }
+    
+    .section-title {
+        font-size: var(--font-size-2xl);
+    }
+}
+
 
 /* Scroll Animations */
 .fade-in {
